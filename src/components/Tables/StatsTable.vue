@@ -5,7 +5,9 @@
         <md-table-cell md-label="Asset">{{ item.asset }}</md-table-cell>
         <md-table-cell md-label="Price">{{ item.price }}</md-table-cell>
         <md-table-cell md-label="Change">{{ item.change }}</md-table-cell>
-        <md-table-cell md-label="Market Cap">{{ item.market_cap }}</md-table-cell>
+        <md-table-cell md-label="Market Cap">{{
+          item.market_cap
+        }}</md-table-cell>
         <md-table-cell md-label="Balance">{{ item.balance }}</md-table-cell>
       </md-table-row>
     </md-table>

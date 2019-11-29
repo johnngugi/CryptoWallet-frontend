@@ -55,9 +55,8 @@ export default {
   data() {
     return {
       address: "0x8ed1BfB56Aa778eC6CC6575a445290448e6DB97e",
-      amount: null,
-
-    }
+      amount: null
+    };
   }
 };
 </script>
