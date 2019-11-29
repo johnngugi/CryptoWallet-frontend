@@ -7,6 +7,7 @@ import StatsCard from "./Cards/StatsCard.vue";
 import NavTabsTable from "./Tables/NavTabsTable.vue";
 import OrderedTable from "./Tables/OrderedTable.vue";
 import SimpleTable from "./Tables/SimpleTable.vue";
+import StatsTable from "./Tables/StatsTable";
 
 // Dialogs
 import SendFormDialog from "./Dialogs/SendFormDialog.vue";
@@ -20,5 +21,6 @@ export {
   OrderedTable,
   SimpleTable,
   SendFormDialog,
-  AssetAddressDialog
+  AssetAddressDialog,
+  StatsTable
 };

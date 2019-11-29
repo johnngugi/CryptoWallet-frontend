@@ -9,6 +9,7 @@ import Maps from "@/pages/Maps.vue";
 import Notifications from "@/pages/Notifications.vue";
 import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import Wallet from "@/pages/Wallet.vue";
+import Stats from "@/pages/Stats.vue";
 
 const routes = [
   {
@@ -63,6 +64,11 @@ const routes = [
         path: "wallet",
         name: "Wallet",
         component: Wallet
+      },
+      {
+        path: "stats",
+        name: "Stats",
+        component: Stats
       }
     ]
   }

@@ -12,7 +12,7 @@
         <md-icon>account_balance_wallet</md-icon>
         <p>Wallet</p>
       </sidebar-link>
-      <sidebar-link to="/table">
+      <sidebar-link to="/stats">
         <md-icon>money</md-icon>
         <p>Stats</p>
       </sidebar-link>
