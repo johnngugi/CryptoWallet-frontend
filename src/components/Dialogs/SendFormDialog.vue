@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: "send-form-dialog",
+  name: "SendFormDialog",
   props: {
     showDialog: {
       type: Boolean,
