@@ -14,6 +14,9 @@ import TransactionsTable from "./Tables/TransactionsTable.vue";
 import SendFormDialog from "./Dialogs/SendFormDialog.vue";
 import AssetAddressDialog from "./Dialogs/AssetAddressDialog.vue";
 
+// Balance
+import WalletBalance from "./Balance/WalletBalance.vue";
+
 export {
   ChartCard,
   NavTabsCard,
@@ -24,5 +27,6 @@ export {
   SendFormDialog,
   AssetAddressDialog,
   StatsTable,
-  TransactionsTable
+  TransactionsTable,
+  WalletBalance
 };
