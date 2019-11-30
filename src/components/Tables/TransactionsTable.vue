@@ -9,6 +9,7 @@
           <md-table-cell md-label="To">{{ item.to }}</md-table-cell>
           <md-table-cell md-label="Date">{{ item.date }}</md-table-cell>
           <md-table-cell md-label="Amount">{{ item.amount }}</md-table-cell>
+          <md-table-cell md-label="Currency">{{ item.currency }}</md-table-cell>
         </md-table-row>
       </template>
     </md-table>
@@ -48,7 +49,7 @@ export default {
       if (
         !(Object.entries(filter).length === 0 && filter.constructor === Object)
       ) {
-        filtered_data = this.users.filter(item => {
+        filtered_data = this.transactions.filter(item => {
           for (let key in filter) {
             if (item[key] === undefined || item[key] != filter[key]) {
               return false;
@@ -56,7 +57,7 @@ export default {
           }
           return true;
         });
-      } else filtered_data = this.users;
+      } else filtered_data = this.transactions;
 
       return filtered_data;
     }
@@ -64,7 +65,7 @@ export default {
   data() {
     return {
       selected: [],
-      users: [
+      transactions: [
         {
           id: 1,
           type: "Sent",
