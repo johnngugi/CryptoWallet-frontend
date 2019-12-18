@@ -10,12 +10,14 @@ import Notifications from "@/pages/Notifications.vue";
 import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import Wallet from "@/pages/Wallet.vue";
 import Stats from "@/pages/Stats.vue";
+import Login from "@/pages/Login.vue";
 
 const routes = [
   {
     path: "/",
     component: DashboardLayout,
     redirect: "/dashboard",
+    meta: { requiresAuth: true },
     children: [
       {
         path: "dashboard",
@@ -71,6 +73,11 @@ const routes = [
         component: Stats
       }
     ]
+  },
+  {
+    path: "/login",
+    component: Login,
+    name: "Login"
   }
 ];
 

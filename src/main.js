@@ -37,6 +37,21 @@ const router = new VueRouter({
   linkExactActiveClass: "nav-item active"
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isAuthenticated) {
+      next();
+      return;
+    }
+    next('/login');
+  } else {
+    next();
+  }
+});
+
+// Vuex
+import store from "@/store";
+
 Vue.prototype.$Chartist = Chartist;
 
 Vue.use(VueRouter);
@@ -50,6 +65,7 @@ new Vue({
   el: "#app",
   render: h => h(App),
   router,
+  store,
   data: {
     Chartist: Chartist
   }
