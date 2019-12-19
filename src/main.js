@@ -37,13 +37,16 @@ const router = new VueRouter({
   linkExactActiveClass: "nav-item active"
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isAuthenticated) {
       next();
       return;
     }
-    next('/login');
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    });
   } else {
     next();
   }
