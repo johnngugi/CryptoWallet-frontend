@@ -2,6 +2,7 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import AuthService from "@/services/AuthService";
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT } from "../actions/auth";
+import { USER_REQUEST } from "../actions/user";
 
 const state = {
     token: Cookies.get('user-token') || null,
@@ -14,7 +15,7 @@ const getters = {
 }
 
 const actions = {
-    [AUTH_REQUEST]: ({ commit }, user) => {
+    [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
         return new Promise((resolve, reject) => {
             commit(AUTH_REQUEST);
             AuthService.login({
@@ -25,7 +26,7 @@ const actions = {
                 Cookies.set('user-token', token);
                 axios.defaults.headers.common['Authorization'] = token;
                 commit(AUTH_SUCCESS, response);
-                // dispatch(USER_REQUEST);
+                dispatch(USER_REQUEST, response.data.user);
                 resolve(response);
             })
                 .catch(error => {
