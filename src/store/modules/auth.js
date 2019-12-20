@@ -59,6 +59,7 @@ const mutations = {
     },
     [AUTH_LOGOUT]: (state) => {
         state.token = '';
+        state.status = 'logged out';
     }
 };
 

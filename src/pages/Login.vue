@@ -51,7 +51,7 @@
           <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
         </div>
 
-        <div class="loading-overlay" v-if="loading">
+        <div class="loading-overlay" v-if="status === 'loading'">
           <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
         </div>
       </md-content>
@@ -61,24 +61,25 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { AUTH_REQUEST } from "@/store/actions/auth";
 export default {
   name: "Login",
   data() {
     return {
-      loading: false,
       login: {
         email: "",
         password: ""
       }
     };
   },
+  computed: {
+    ...mapState(["status"])
+  },
   methods: {
     async auth() {
-      this.loading = true;
       const { email, password } = this.login;
       await this.$store.dispatch(AUTH_REQUEST, { email, password });
-      this.loading = false;
       this.$router.push({ name: "Dashboard" });
     }
   }
