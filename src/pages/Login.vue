@@ -34,26 +34,36 @@
           <div class="md-body-1">The best crypto currency web wallet</div>
         </div>
 
-        <div class="form">
-          <md-field>
-            <label>E-mail</label>
-            <md-input v-model="login.email" autofocus></md-input>
-          </md-field>
+        <ValidationObserver v-slot="{ invalid }">
+          <form @submit.prevent="auth">
+            <div class="form">
+              <validation-provider rules="required|email" v-slot="{ errors }">
+                <md-field :class="{ 'md-invalid': errors }">
+                  <label>E-mail</label>
+                  <md-input v-model="login.email" autofocus></md-input>
+                  <span class="md-error">{{ errors[0] }}</span>
+                </md-field>
+              </validation-provider>
 
-          <md-field md-has-password>
-            <label>Password</label>
-            <md-input v-model="login.password" type="password"></md-input>
-          </md-field>
-        </div>
+              <validation-provider rules="required" v-slot="{errors}">
+                <md-field :class="{ 'md-invalid': errors }" md-has-password>
+                  <label>Password</label>
+                  <md-input v-model="login.password" type="password"></md-input>
+                  <span class="md-error">{{ errors[0] }}</span>
+                </md-field>
+              </validation-provider>
+            </div>
 
-        <div class="actions md-layout md-alignment-center-space-between">
-          <a href="/resetpassword">Reset password</a>
-          <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
-        </div>
+            <div class="actions md-layout md-alignment-center-space-between">
+              <a href="/resetpassword">Reset password</a>
+              <md-button type="submit" class="md-raised md-primary" :disabled="invalid">Log in</md-button>
+            </div>
 
-        <div class="loading-overlay" v-if="status === 'loading'">
-          <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-        </div>
+            <div class="loading-overlay" v-if="status === 'loading'">
+              <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+            </div>
+          </form>
+        </ValidationObserver>
       </md-content>
       <div class="background" />
     </div>
@@ -62,9 +72,15 @@
 
 <script>
 import { mapState } from "vuex";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 import { AUTH_REQUEST } from "@/store/actions/auth";
+import "@/validation";
 export default {
   name: "Login",
+  components: {
+    ValidationObserver,
+    ValidationProvider
+  },
   data() {
     return {
       login: {
