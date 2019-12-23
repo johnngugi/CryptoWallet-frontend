@@ -1,90 +1,90 @@
 <template>
-  <div>
-    <md-toolbar class="md-primary">
-      <div class="md-toolbar-row">
-        <div class="md-toolbar-section-start">
-          <h3 class="md-title">CryptoWallet</h3>
-        </div>
-        <div class="md-toolbar-section-end">
-          <md-button class="md-just-icon md-simple md-toolbar-toggle">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </md-button>
-
-          <div class="md-collapse">
-            <md-list>
-              <md-list-item href="#/login">
-                <p>Login</p>
-              </md-list-item>
-
-              <md-list-item href="#/signup">
-                <p>Signup</p>
-              </md-list-item>
-            </md-list>
-          </div>
-        </div>
+  <div class="centered-container">
+    <md-content class="md-elevation-3">
+      <div class="title">
+        <div class="md-title">Sign Up</div>
       </div>
-    </md-toolbar>
-    <div class="centered-container">
-      <md-content class="md-elevation-3">
-        <div class="title">
-          <img src="https://vuematerial.io/assets/logo-color.png" />
-          <div class="md-title">Login</div>
-        </div>
 
-        <ValidationObserver v-slot="{ invalid }">
-          <form @submit.prevent="auth">
-            <div class="form">
-              <validation-provider rules="required|email" v-slot="{ errors }">
-                <md-field :class="{ 'md-invalid': errors }">
-                  <label>E-mail</label>
-                  <md-input v-model="login.email" autofocus></md-input>
-                  <span class="md-error">{{ errors[0] }}</span>
-                </md-field>
-              </validation-provider>
+      <ValidationObserver v-slot="{ invalid }">
+        <form @submit.prevent="auth">
+          <div class="form">
+            <ValidationProvider rules="required|names" v-slot="{ errors }">
+              <md-field :class="{ 'md-invalid': errors }">
+                <label>First Name</label>
+                <md-input v-model="signup.firstName" autofocus></md-input>
+                <span class="md-error">{{ errors[0] }}</span>
+              </md-field>
+            </ValidationProvider>
 
-              <validation-provider rules="required" v-slot="{errors}">
-                <md-field :class="{ 'md-invalid': errors }" md-has-password>
-                  <label>Password</label>
-                  <md-input v-model="login.password" type="password"></md-input>
-                  <span class="md-error">{{ errors[0] }}</span>
-                </md-field>
-              </validation-provider>
-            </div>
+            <ValidationProvider rules="required|names" v-slot="{ errors }">
+              <md-field :class="{ 'md-invalid': errors }">
+                <label>Last Name</label>
+                <md-input v-model="signup.lastName"></md-input>
+                <span class="md-error">{{ errors[0] }}</span>
+              </md-field>
+            </ValidationProvider>
 
-            <div class="actions md-layout md-alignment-center-space-between">
-              <a href="/resetpassword">Reset password</a>
-              <md-button type="submit" class="md-raised md-primary" :disabled="invalid">Log in</md-button>
-            </div>
+            <ValidationProvider rules="required|email" v-slot="{ errors }">
+              <md-field :class="{ 'md-invalid': errors }">
+                <label>E-mail</label>
+                <md-input v-model="signup.email"></md-input>
+                <span class="md-error">{{ errors[0] }}</span>
+              </md-field>
+            </ValidationProvider>
 
-            <div class="loading-overlay" v-if="status === 'loading'">
-              <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
-            </div>
-          </form>
-        </ValidationObserver>
-      </md-content>
-      <div class="background" />
-    </div>
+            <ValidationProvider
+              rules="required|min:8|max:26|strong_password|confirmed:confirmation"
+              v-slot="{ errors }"
+            >
+              <md-field :class="{ 'md-invalid': errors }" md-has-password>
+                <label>Password</label>
+                <md-input v-model="signup.password" type="password"></md-input>
+                <span class="md-error">{{ errors[0] }}</span>
+              </md-field>
+            </ValidationProvider>
+
+            <ValidationProvider rules="required" v-slot="{ errors }" vid="confirmation">
+              <md-field :class="{ 'md-invalid': errors }" md-has-password>
+                <label>Confirm Password</label>
+                <md-input v-model="signup.password_confirm" type="password"></md-input>
+                <span class="md-error">{{ errors[0] }}</span>
+              </md-field>
+            </ValidationProvider>
+          </div>
+
+          <div class="actions md-layout md-alignment-center-space-between">
+            <md-button class="md-raised md-primary" :disabled="invalid">Sign Up</md-button>
+          </div>
+
+          <div class="loading-overlay" v-if="status === 'loading'">
+            <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+          </div>
+        </form>
+      </ValidationObserver>
+    </md-content>
+    <div class="background" />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { SIGNUP_REQUEST } from "@/store/actions/signup";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import { AUTH_REQUEST } from "@/store/actions/auth";
 import "@/validation";
 export default {
-  name: "Login",
+  name: "Signup",
   components: {
     ValidationObserver,
     ValidationProvider
   },
   data() {
     return {
-      login: {
+      signup: {
+        firstName: "",
+        lastName: "",
         email: "",
-        password: ""
+        password: "",
+        confirm_password: ""
       }
     };
   },
@@ -93,8 +93,20 @@ export default {
   },
   methods: {
     async auth() {
-      const { email, password } = this.login;
-      await this.$store.dispatch(AUTH_REQUEST, { email, password });
+      const {
+        firstName,
+        lastName,
+        email,
+        password,
+        password_confirm
+      } = this.login;
+      await this.$store.dispatch(SIGNUP_REQUEST, {
+        firstName,
+        lastName,
+        email,
+        password,
+        password_confirm
+      });
       this.$router.push({ name: "Dashboard" });
     }
   }
