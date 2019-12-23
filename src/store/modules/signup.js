@@ -1,17 +1,16 @@
 import axios from "axios";
 import Cookies from 'js-cookie'
 import AuthService from "@/services/AuthService";
+import { AUTH_SUCCESS } from "../actions/auth";
 import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_ERROR } from "../actions/signup";
 import { USER_REQUEST } from "../actions/user";
 
 const state = {
-    token: null,
     status: '',
 };
 
 const getters = {
-    isAuthenticated: state => !!state.token,
-    authStatus: state => state.status,
+    signUpStatus: state => state.status,
 };
 
 const actions = {
@@ -28,8 +27,8 @@ const actions = {
                 const token = response.data.user.token;
                 Cookies.set('user-token', token);
                 axios.defaults.headers.common['Authorization'] = token;
-                commit(SIGNUP_SUCCESS, response);
-                dispatch(USER_REQUEST, response.data.user);
+                dispatch(`auth/${AUTH_SUCCESS}`, response, { root: true });
+                dispatch(`user/${USER_REQUEST}`, response.data.user, { root: true });
                 resolve(response);
             })
                 .catch(error => {
@@ -45,9 +44,8 @@ const mutations = {
     [SIGNUP_REQUEST]: (state) => {
         state.status = 'loading';
     },
-    [SIGNUP_SUCCESS]: (state, resp) => {
+    [SIGNUP_SUCCESS]: (state) => {
         state.status = 'success';
-        state.token = resp.data.user.token;
     },
     [SIGNUP_ERROR]: (state) => {
         state.status = 'error';
@@ -55,6 +53,7 @@ const mutations = {
 };
 
 export default {
+    namespaced: true,
     state,
     getters,
     actions,

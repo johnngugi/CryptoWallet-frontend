@@ -5,6 +5,6 @@ export default {
     return Api().post("api/auth/login", credentials);
   },
   signup(details) {
-    return Api.post("api/auth/register", details);
+    return Api().post("api/auth/register", details);
   }
 };

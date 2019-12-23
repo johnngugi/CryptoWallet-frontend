@@ -28,7 +28,6 @@ extend("names", {
 extend("strong_password", {
     validate: value => {
         var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])");
-        console.log(strongRegex.test(value));
         return strongRegex.test(value);
     },
     message: "Password must contain at least one uppercase, one lowercase, one symbol and one number"

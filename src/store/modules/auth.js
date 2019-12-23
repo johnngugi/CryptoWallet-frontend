@@ -26,7 +26,7 @@ const actions = {
                 Cookies.set('user-token', token);
                 axios.defaults.headers.common['Authorization'] = token;
                 commit(AUTH_SUCCESS, response);
-                dispatch(USER_REQUEST, response.data.user);
+                dispatch(`user/${USER_REQUEST}`, response.data.user);
                 resolve(response);
             })
                 .catch(error => {
@@ -35,6 +35,9 @@ const actions = {
                     reject(error);
                 });
         });
+    },
+    [AUTH_SUCCESS]: ({ commit }, user) => {
+        commit(AUTH_SUCCESS, user);
     },
     [AUTH_LOGOUT]: ({ commit }) => {
         return new Promise((resolve) => {
@@ -64,6 +67,7 @@ const mutations = {
 };
 
 export default {
+    namespaced: true,
     state,
     getters,
     actions,

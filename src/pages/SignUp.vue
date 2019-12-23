@@ -53,7 +53,7 @@
           </div>
 
           <div class="actions md-layout md-alignment-center-space-between">
-            <md-button class="md-raised md-primary" :disabled="invalid">Sign Up</md-button>
+            <md-button type="submit" class="md-raised md-primary" :disabled="invalid">Sign Up</md-button>
           </div>
 
           <div class="loading-overlay" v-if="status === 'loading'">
@@ -84,7 +84,7 @@ export default {
         lastName: "",
         email: "",
         password: "",
-        confirm_password: ""
+        password_confirm: ""
       }
     };
   },
@@ -99,8 +99,8 @@ export default {
         email,
         password,
         password_confirm
-      } = this.login;
-      await this.$store.dispatch(SIGNUP_REQUEST, {
+      } = this.signup;
+      await this.$store.dispatch(`signup/${SIGNUP_REQUEST}`, {
         firstName,
         lastName,
         email,
