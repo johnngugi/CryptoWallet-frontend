@@ -94,7 +94,7 @@ export default {
   methods: {
     async auth() {
       const { email, password } = this.login;
-      await this.$store.dispatch(AUTH_REQUEST, { email, password });
+      await this.$store.dispatch(`auth/${AUTH_REQUEST}`, { email, password });
       this.$router.push({ name: "Dashboard" });
     }
   }

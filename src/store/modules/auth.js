@@ -24,9 +24,9 @@ const actions = {
             }).then(response => {
                 const token = response.data.user.token;
                 Cookies.set('user-token', token);
-                axios.defaults.headers.common['Authorization'] = token;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 commit(AUTH_SUCCESS, response);
-                dispatch(`user/${USER_REQUEST}`, response.data.user);
+                dispatch(`user/${USER_REQUEST}`, response.data.user, { root: true });
                 resolve(response);
             })
                 .catch(error => {

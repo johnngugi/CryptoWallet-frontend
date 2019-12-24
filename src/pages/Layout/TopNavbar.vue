@@ -84,7 +84,7 @@ export default {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
     },
     async logout() {
-      await this.$store.dispatch(AUTH_LOGOUT);
+      await this.$store.dispatch(`auth/${AUTH_LOGOUT}`);
       this.$router.push({ name: "Login" });
     }
   }
